@@ -1,0 +1,59 @@
+import viajes.*
+
+describe "Viajes" {
+	const viaje1 = new ViajeDePlaya()
+	const viaje2 = new ExcursionACiudad()
+	const viaje3 = new ExcursionesACiudadTropical()
+	const viaje4 = new SalidaDeTrekking()
+	const viaje5 = new ClasesDeGym()
+	
+
+	fixture {
+		viaje1.agregarIdioma("español")
+		viaje1.agregarIdioma("italiano")
+		viaje1.largoDePlaya(2500)
+		
+		viaje2.agregarIdioma("español")
+		viaje2.agregarIdioma("ruso")
+		viaje2.atracciones(5)
+
+		viaje3.agregarIdioma("ingles")
+		viaje3.agregarIdioma("italiano") 
+		viaje3.atracciones(10)
+		
+		viaje4.agregarIdioma("ingles")
+		viaje4.agregarIdioma("aleman")
+		viaje4.senderos(200)
+		viaje4.diasDeSol(150)
+	}
+	
+	test "duracion" {
+		assert.equals(5 ,viaje1.duracion())
+		assert.equals(2.5,viaje2.duracion())
+		assert.equals(6, viaje3.duracion())
+		assert.equals(4, viaje4.duracion())
+		assert.equals(1, viaje5.duracion())
+	}
+	
+	test "implica esfuerzo" {
+		assert.that(viaje1.implicaEsfuerzo())
+		assert.that(viaje2.implicaEsfuerzo())
+		assert.notThat(viaje3.implicaEsfuerzo())
+		assert.that(viaje4.implicaEsfuerzo())
+		assert.that(viaje5.implicaEsfuerzo())
+	}
+	test "sive para broncearce" {
+		assert.that(viaje1.sirveParaBroncearse())
+		assert.notThat(viaje2.sirveParaBroncearse())
+		assert.that(viaje3.sirveParaBroncearse())
+		assert.that(viaje4.sirveParaBroncearse())
+		assert.notThat(viaje5.sirveParaBroncearse())
+	}
+	test "Es interesante" {
+		assert.that(viaje1.esInteresante())
+		assert.that(viaje2.esInteresante())
+		assert.that(viaje3.esInteresante())
+		assert.that(viaje4.esInteresante())
+	}
+}	
+

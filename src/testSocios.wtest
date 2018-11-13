@@ -1,0 +1,91 @@
+import viajes.*
+import socios.*
+
+describe "Socios" {
+	const socio1 = new SocioTranquilo()
+	const socio2 = new SocioCoherente()
+	const socio3 = new SocioRelajado()
+	
+	const viaje1 = new ViajeDePlaya()
+	const viaje2 = new ExcursionACiudad()
+	const viaje3 = new ExcursionesACiudadTropical()
+	const viaje4 = new SalidaDeTrekking()
+	const viaje5 = new ClasesDeGym()
+	
+
+	fixture {
+		viaje1.agregarIdioma("español")
+		viaje1.agregarIdioma("italiano")
+		viaje1.largoDePlaya(2500)
+		
+		viaje2.agregarIdioma("español")
+		viaje2.agregarIdioma("ruso")
+		viaje2.atracciones(5)
+
+		viaje3.agregarIdioma("ingles")
+		viaje3.agregarIdioma("italiano") 
+		viaje3.atracciones(10)
+		
+		viaje4.agregarIdioma("ingles")
+		viaje4.agregarIdioma("aleman")
+		viaje4.senderos(200)
+		viaje4.diasDeSol(150)
+		
+		socio1.maximoDeAct(2)
+		socio1.edad(50)
+		socio1.agregarIdioma("español")
+		socio1.agregarActividad(viaje1)
+		socio1.agregarActividad(viaje2)
+		
+		socio2.maximoDeAct(3)
+		socio2.edad(30)
+		socio2.agregarIdioma("ingles")
+		socio2.agregarIdioma("aleman")
+		socio2.agregarActividad(viaje3)
+		socio2.agregarActividad(viaje4)
+		socio2.agregarActividad(viaje5)
+		
+		socio3.maximoDeAct(4)
+		socio3.edad(40)
+		socio3.agregarIdioma("italiano")
+		socio3.agregarIdioma("frances")
+		socio3.agregarIdioma("español")
+		socio3.agregarActividad(viaje3)
+		socio3.agregarActividad(viaje4)
+	}
+	
+	test "error agregar" {
+		assert.throwsException({socio1.agregarActividad(viaje5)})
+		assert.throwsException({socio2.agregarActividad(viaje1)})
+	}
+	
+	test "es adorador del sol" {
+		assert.notThat(socio1.esAdoradorDelSol())
+		assert.notThat(socio2.esAdoradorDelSol())
+		assert.that(socio3.esAdoradorDelSol())
+	}
+	
+	test "actividades esforzadas" {
+		assert.equals([viaje1, viaje2],socio1.actEsforzadas())
+		assert.equals([viaje4, viaje5],socio2.actEsforzadas())
+		assert.equals([viaje4],socio3.actEsforzadas())
+	}
+	test "le atrae" {
+		assert.that(socio1.leAtrae(viaje3))
+		assert.notThat(socio1.leAtrae(viaje2))
+		assert.that(socio2.leAtrae(viaje1))
+		assert.that(socio2.leAtrae(viaje4))
+		assert.notThat(socio2.leAtrae(viaje3))
+		assert.that(socio3.leAtrae(viaje3))
+		assert.notThat(socio3.leAtrae(viaje4))
+	}
+	
+	test "es recomendado" {
+		assert.notThat(viaje2.esRecomendado(socio1))
+		assert.that(viaje3.esRecomendado(socio1))
+		assert.notThat(viaje4.esRecomendado(socio3))
+		assert.notThat(viaje5.esRecomendado(socio3))
+	}
+}	
+
+
